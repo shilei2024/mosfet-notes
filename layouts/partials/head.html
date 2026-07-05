@@ -16,22 +16,6 @@
 
 <link rel="canonical" href="{{ .Permalink }}">
 
-{{/*
-  Favicon（多格式：SVG 优先 / 苹果设备备用）
-*/}}
-<link rel="icon" type="image/svg+xml" href="{{ "favicon.svg" | relURL }}">
-<link rel="apple-touch-icon" sizes="180x180" href="{{ "apple-touch-icon.png" | relURL }}">
-
-{{/*
-  社交分享卡片（Open Graph + Twitter Card）
-*/}}
-<meta property="og:image" content="{{ .Site.BaseURL }}og-image.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="{{ .Site.Title }} - {{ .Site.Params.description }}">
-<meta name="twitter:image" content="{{ .Site.BaseURL }}og-image.png">
-<meta name="twitter:image:alt" content="{{ .Site.Title }} - {{ .Site.Params.description }}">
-
 {{- with .OutputFormats.Get "RSS" }}
 <link rel="alternate" type="application/rss+xml" href="{{ .Permalink }}" title="{{ $.Site.Title }}">
 {{- end }}
@@ -78,4 +62,56 @@
 
 {{- template "_internal/opengraph.html" . }}
 {{- template "_internal/twitter_cards.html" . }}
-{{- template "_internal/schema.html" . }}
+
+{{/*
+  Schema.org JSON-LD 结构化数据
+  使用 Hugo dict → jsonify → safeJS 注入
+
+  safeJS 是 Hugo 0.85+ 提供的过滤器，专为 <script> 内部设计，
+  告诉 Hugo 把输出当作 JavaScript 字面量（不被 HTML/JS 转义）
+*/}}
+{{- if .IsHome -}}
+{{- $data := dict
+  "@context" "https://schema.org"
+  "@type" "WebSite"
+  "name" .Site.Title
+  "url" .Site.BaseURL
+  "description" .Site.Params.description
+  "inLanguage" (.Site.Language.Lang | default "zh-cn")
+  "author" (dict "@type" "Person" "name" .Site.Params.author)
+  "potentialAction" (dict
+    "@type" "SearchAction"
+    "target" (dict "@type" "EntryPoint" "urlTemplate" (printf "%sq={search_term_string}" .Site.BaseURL))
+    "query-input" "required name=search_term_string"
+  )
+-}}
+<script type="application/ld+json">{{ $data | jsonify | safeJS }}</script>
+{{- end -}}
+
+{{- if and .IsPage (eq .Section "post") -}}
+{{- $desc := .Description -}}
+{{- if not $desc -}}{{- $desc = (.Summary | plainify | chomp) -}}{{- end -}}
+{{- $cat := "" -}}
+{{- if .Params.categories -}}{{- $cat = index .Params.categories 0 -}}{{- end -}}
+{{- $tags := (delimit .Params.tags ", ") -}}
+{{- $author := .Params.author | default .Site.Params.author -}}
+{{- $data := dict
+  "@context" "https://schema.org"
+  "@type" "Article"
+  "headline" .Title
+  "datePublished" (.Date.Format "2006-01-02T15:04:05Z07:00")
+  "dateModified" (.Lastmod.Format "2006-01-02T15:04:05Z07:00")
+  "author" (dict "@type" "Person" "name" $author)
+  "publisher" (dict
+    "@type" "Organization"
+    "name" .Site.Title
+    "logo" (dict "@type" "ImageObject" "url" (printf "%sapple-touch-icon.png" .Site.BaseURL))
+  )
+  "description" $desc
+  "mainEntityOfPage" (dict "@type" "WebPage" "@id" .Permalink)
+  "inLanguage" (.Site.Language.Lang | default "zh-cn")
+-}}
+{{- if $tags }}{{ $data = merge $data (dict "keywords" $tags) }}{{ end -}}
+{{- if $cat }}{{ $data = merge $data (dict "articleSection" $cat) }}{{ end -}}
+<script type="application/ld+json">{{ $data | jsonify | safeJS }}</script>
+{{- end -}}

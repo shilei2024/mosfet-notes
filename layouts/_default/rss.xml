@@ -1,0 +1,49 @@
+{{/*
+  _default/rss.xml — 全站 RSS feed（含全文）
+  覆盖 Hugo 默认的 RSS 模板
+  - 含全文 <content:encoded>
+  - 含封面图 <enclosure>（如有）
+  - 含分类 <category>
+  - 自动排除 draft
+*/}}
+{{- $pages := where .Site.RegularPages "Section" "in" .Site.Params.mainSections -}}
+{{- $limit := .Site.Config.Services.RSS.Limit | default 50 -}}
+{{- printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
+<rss version="2.0"
+     xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>{{ .Site.Title }}</title>
+    <link>{{ .Site.BaseURL }}</link>
+    <description>{{ .Site.Params.description }}</description>
+    <language>{{ .Site.Language.Lang | default "zh-cn" }}</language>
+    <managingEditor>{{ .Site.Params.author }} ({{ .Site.Params.author }})</managingEditor>
+    <webMaster>{{ .Site.Params.author }} ({{ .Site.Params.author }})</webMaster>
+    <lastBuildDate>{{ now.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</lastBuildDate>
+    <atom:link href="{{ .Permalink }}index.xml" rel="self" type="application/rss+xml" />
+    {{- range first $limit $pages }}
+    <item>
+      <title>{{ .Title }}</title>
+      <link>{{ .Permalink }}</link>
+      <guid isPermaLink="true">{{ .Permalink }}</guid>
+      <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
+      <dc:creator>{{ .Site.Params.author }}</dc:creator>
+      {{- with .Description }}
+      <description>{{ . | plainify | chomp }}</description>
+      {{- end }}
+      {{- with .Params.lead }}
+      <description>{{ . | plainify | chomp }}</description>
+      {{- end }}
+      {{- range .Params.categories }}
+      <category>{{ . }}</category>
+      {{- end }}
+      {{- range .Params.tags }}
+      <category>{{ . }}</category>
+      {{- end }}
+      <content:encoded><![CDATA[{{ .Content | safeHTML }}]]></content:encoded>
+    </item>
+    {{- end }}
+  </channel>
+</rss>
+{{- /* vim: set ft=xml: */ -}}

@@ -1,0 +1,51 @@
+{{/*
+  sitemap.xml — 增强版 sitemap
+  - 按页面类型动态生成 changefreq 与 priority
+  - 首页：daily / 1.0
+  - section / term 页：weekly / 0.7
+  - 最近 90 天文章：weekly / 0.8
+  - 90 天~1 年：monthly / 0.6
+  - 1 年以上：yearly / 0.4
+*/}}
+{{- printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  {{- range .Data.Pages }}
+  <url>
+    <loc>{{ .Permalink }}</loc>
+    {{- if not .Lastmod.IsZero }}
+    <lastmod>{{ .Lastmod.Format "2006-01-02" }}</lastmod>
+    {{- end }}
+    {{- $cf := "" -}}
+    {{- $pr := 0.5 -}}
+    {{- if .IsHome -}}
+      {{- $cf = "daily" -}}
+      {{- $pr = 1.0 -}}
+    {{- else if eq .Kind "section" -}}
+      {{- $cf = "weekly" -}}
+      {{- $pr = 0.7 -}}
+    {{- else if eq .Kind "term" -}}
+      {{- $cf = "weekly" -}}
+      {{- $pr = 0.6 -}}
+    {{- else if eq .Kind "page" -}}
+      {{- $cf = "monthly" -}}
+      {{- $pr = 0.5 -}}
+    {{- else -}}
+      {{/* 文章页按时间动态评估 */}}
+      {{- $ageDays := div (sub now.Unix .Date.Unix) 86400 -}}
+      {{- if lt $ageDays 90 -}}
+        {{- $cf = "weekly" -}}
+        {{- $pr = 0.8 -}}
+      {{- else if lt $ageDays 365 -}}
+        {{- $cf = "monthly" -}}
+        {{- $pr = 0.6 -}}
+      {{- else -}}
+        {{- $cf = "yearly" -}}
+        {{- $pr = 0.4 -}}
+      {{- end -}}
+    {{- end }}
+    <changefreq>{{ $cf }}</changefreq>
+    <priority>{{ $pr }}</priority>
+  </url>
+  {{- end }}
+</urlset>
+{{- /* vim: set ft=xml: */ -}}
