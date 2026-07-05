@@ -1,0 +1,25 @@
+{{/*
+  _default/baseof.html — 全站基础模板
+*/}}
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Locale | default "zh-cn" }}">
+<head>
+  {{- partial "head.html" . }}
+
+  {{/*
+    Umami 访问统计（仅 production 环境输出）
+  */}}
+  {{- partial "analytics.html" . }}
+</head>
+<body>
+  {{- partial "header.html" . }}
+  <main class="site-main" role="main">
+    {{- block "main" . }}{{ end }}
+  </main>
+  {{- partial "footer.html" . }}
+
+  {{- if .Params.math }}
+  {{- partial "math.html" . }}
+  {{- end }}
+</body>
+</html>

@@ -1,0 +1,66 @@
+baseURL = "https://My-site.netlify.app"
+title = "MOSFET实战笔记"
+locale = "zh-cn"
+hasCJKLanguage = true
+enableRobotsTXT = true
+paginate = 10
+
+ignoreLogs = ['warning-goldmark-raw-html']
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+      passthrough = { enable = true }
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = false
+    lineNos = false
+    noClasses = false
+    style = "github"
+    tabWidth = 4
+
+[outputs]
+  home = ["HTML", "RSS"]
+  section = ["HTML", "RSS"]
+
+[params]
+  description = "聚焦功率器件、电源与电机驱动的实战笔记与项目记录"
+  author = "Lance"
+  mainSections = ["post"]
+  showReadingTime = true
+  showTOC = true
+  fontFamily = "serif"  # 标记当前主题字体偏好；CSS 暂未读取，留作未来主题切换
+
+  # —————— Twikoo 评论系统（国内访问友好） ——————
+  # 启用步骤：
+  #   1) MongoDB Atlas 注册免费 M0 集群 → https://www.mongodb.com/cloud/atlas
+  #   2) Vercel 部署 Twikoo → https://twikoo.js.org/backend-deployment.html#vercel-部署
+  #   3) 拿到 envId（形如 https://twikoo-xxx.vercel.app）填入下方
+  #   4) 访问 https://<envId>/ 设置管理员密码
+  [params.twikoo]
+    enabled = false  # 暂时关闭；启用需 1) MongoDB Atlas 注册 2) Vercel 部署 Twikoo 3) 填入 envId 改为 true
+    envId = "https://twikoo-PLACEHOLDER.vercel.app"
+    region = ""      # 留空 = Twikoo 自动探测；可选 ap-shanghai / ap-guangzhou / ap-beijing
+    lang = "zh-CN"
+
+  # —————— Umami 访问统计 ——————
+  # 启用步骤：https://cloud.umami.is 注册 → Add website → 拿到 websiteId
+  [params.umami]
+    enabled = false
+    websiteId = "PLACEHOLDER"
+    src = "https://cloud.umami.is/script.js"
+    domains = []
+
+[menu]
+  [[menu.main]]
+    name = "首页"
+    url = "/"
+    weight = 1
+  [[menu.main]]
+    name = "文章"
+    url = "/post/"
+    weight = 2
+  [[menu.main]]
+    name = "关于"
+    url = "/about/"
+    weight = 3

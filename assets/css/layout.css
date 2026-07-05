@@ -1,0 +1,179 @@
+/* =========================================================================
+ * layout.css — Editorial 衬线杂志风 · 布局
+ *
+ * - 顶部导航：干净利落，无模糊；衬线 site-title 与衬线 nav 配 baseline 对齐
+ * - 内容区：720px measure，充足留白
+ * - 响应式：640px 起字号与 hero 标题缩放
+ * ========================================================================= */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--header-height);
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.site-header .container {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  height: 100%;
+  gap: var(--space-5);
+}
+
+.site-title {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--color-fg);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.site-title:hover {
+  color: var(--color-fg);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+}
+
+.site-nav {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-5);
+}
+
+.site-nav a {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-fg-muted);
+  text-decoration: none;
+  text-transform: lowercase;
+  font-variant: small-caps;
+  letter-spacing: 0.06em;
+  position: relative;
+  padding-bottom: 2px;
+  transition: color 0.15s ease;
+}
+
+.site-nav a:hover {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.site-nav a.active {
+  color: var(--color-fg);
+}
+
+.site-nav a.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: var(--color-accent);
+}
+
+.site-main {
+  flex: 1;
+  width: 100%;
+  padding: var(--space-8) 0 var(--space-8);
+}
+
+.site-main > .container,
+.site-main > article,
+.site-main > section {
+  max-width: var(--content-width);
+  margin: 0 auto;
+}
+
+.site-footer {
+  padding: var(--space-6) 0;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-fg-muted);
+  font-family: var(--font-serif);
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+.site-footer .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.site-footer a {
+  color: var(--color-fg-muted);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+}
+
+.site-footer a:hover {
+  color: var(--color-accent);
+}
+
+/* —— 响应式 —— */
+@media (max-width: 640px) {
+  .site-header {
+    height: 56px;
+  }
+
+  .site-header .container {
+    gap: var(--space-3);
+  }
+
+  .site-title {
+    font-size: 1.2rem;
+  }
+
+  .site-nav {
+    gap: var(--space-3);
+  }
+
+  .site-nav a {
+    font-size: var(--font-size-sm);
+  }
+
+  .home__title {
+    font-size: 2.75rem;
+  }
+
+  .home__desc {
+    font-size: 1.1rem;
+  }
+
+  .post__title {
+    font-size: 2rem;
+  }
+
+  .post-card {
+    grid-template-columns: 3rem 1fr;
+    gap: var(--space-3);
+  }
+
+  .post-card__index {
+    font-size: 1.1rem;
+  }
+
+  .post-card__title {
+    font-size: 1.2rem;
+  }
+
+  .post-card:hover {
+    margin: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .pull-quote__body {
+    font-size: 1.2rem;
+  }
+}

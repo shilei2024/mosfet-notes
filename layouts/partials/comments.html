@@ -1,0 +1,37 @@
+{{/*
+  partials/comments.html — Twikoo 评论
+  - 全局开关：params.twikoo.enabled
+  - 单文章关闭：frontmatter 加 comments: false
+  - 暗色主题：Twikoo 1.6+ 自动监听 <html data-theme="dark">，无需手动同步
+*/}}
+{{- $t := .Site.Params.twikoo -}}
+{{- if and $t.enabled (not (eq $.Params.comments false)) -}}
+<section class="comments" id="comments" aria-label="读者评论">
+  <h2 class="comments__title">
+    <span class="small-caps">Comments</span>
+    <span class="comments__title-zh">留言</span>
+  </h2>
+  <div id="twikoo"></div>
+</section>
+
+<script>
+  (function () {
+    var envId  = {{ $t.envId | jsonify }};
+    var region = {{ $t.region | jsonify }};
+    var lang   = {{ $t.lang | jsonify }};
+    var s = document.createElement('script');
+    s.src = envId + '/static/twikoo/twikoo.js';
+    s.type = 'module';
+    s.async = true;
+    s.onload = function () {
+      twikoo.init({
+        envId: envId,
+        el: '#twikoo',
+        region: region || undefined,
+        lang: lang
+      });
+    };
+    document.head.appendChild(s);
+  })();
+</script>
+{{- end -}}

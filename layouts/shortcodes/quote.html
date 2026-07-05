@@ -1,0 +1,11 @@
+{{/*
+  shortcodes/quote.html — Editorial pull quote
+  用法：{{< quote align="center" >}}内容{{< /quote >}}
+  参数：align = center | left | right（默认 center）
+*/}}
+{{ $align := .Get "align" | default "center" }}
+<figure class="pull-quote pull-quote--{{ $align }}">
+  <blockquote class="pull-quote__body">
+    {{ .Inner | markdownify }}
+  </blockquote>
+</figure>

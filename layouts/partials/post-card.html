@@ -1,0 +1,20 @@
+{{/*
+  partials/post-card.html — Editorial 文章卡片（数字索引）
+
+  序号由调用方（index.html / list.html）通过 .Scratch.Set "postIndex" 0 初始化
+  本 partial 自增计数并渲染
+*/}}
+{{- $index := add ($.Scratch.Get "postIndex" | default 0) 1 -}}
+{{- $.Scratch.Set "postIndex" $index -}}
+<article class="post-card">
+  <div class="post-card__index">{{ printf "%02d" $index }}</div>
+  <div class="post-card__body">
+    <h3 class="post-card__title">
+      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+    </h3>
+    <p class="post-card__excerpt">
+      {{- with .Description }}{{ . }}{{ else }}{{ .Summary | plainify | chomp }}{{ end -}}
+    </p>
+    {{- partial "post-meta.html" . }}
+  </div>
+</article>

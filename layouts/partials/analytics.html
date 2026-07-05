@@ -1,0 +1,14 @@
+{{/*
+  partials/analytics.html — Umami 访问统计
+  - 三重守门：enabled + production 环境 + websiteId 非空
+  - 多域名支持：data-domains（可选）
+*/}}
+{{- $u := .Site.Params.umami -}}
+{{- if and $u.enabled (eq hugo.Environment "production") $u.websiteId -}}
+<script async defer
+        data-website-id="{{ $u.websiteId }}"
+        {{- with $u.domains }}
+        data-domains="{{ delimit . "," }}"
+        {{- end }}
+        src="{{ $u.src }}"></script>
+{{- end -}}

@@ -1,0 +1,21 @@
+{{/*
+  index.html — Editorial 首页
+*/}}
+{{ define "main" }}
+{{- $.Scratch.Set "postIndex" 0 -}}
+<section class="home">
+  <header class="home__hero">
+    <p class="home__kicker">— Notes &amp; Field Reports —</p>
+    <h1 class="home__title">{{ .Site.Title }}</h1>
+    <p class="home__desc">{{ .Site.Params.description }}</p>
+  </header>
+
+  <h2 class="section-title"><span class="small-caps">Latest</span></h2>
+  <div class="post-list">
+    {{- $pages := where .Site.RegularPages "Section" "in" .Site.Params.mainSections }}
+    {{- range first 10 ($pages.ByDate.Reverse) }}
+    {{- partial "post-card.html" . }}
+    {{- end }}
+  </div>
+</section>
+{{ end }}

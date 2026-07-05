@@ -1,0 +1,148 @@
+/* =========================================================================
+ * syntax.css — chroma 代码高亮（双主题）
+ * Hugo 配置：style = "github", noClasses = false
+ * 所有颜色通过 CSS 变量映射，自动跟随主题
+ * ========================================================================= */
+
+.chroma {
+  background: var(--syntax-bg);
+  color: var(--color-fg);
+}
+
+/* —— 关键字 —— */
+.chroma .k,
+.chroma .kc,
+.chroma .kd,
+.chroma .kn,
+.chroma .kp,
+.chroma .kr,
+.chroma .kt {
+  color: var(--syntax-keyword);
+  font-weight: 600;
+}
+
+/* —— 字符串 —— */
+.chroma .s,
+.chroma .s1,
+.chroma .s2,
+.chroma .sb,
+.chroma .sc,
+.chroma .sd,
+.chroma .se,
+.chroma .sh,
+.chroma .si,
+.chroma .sr,
+.chroma .ss,
+.chroma .sx {
+  color: var(--syntax-string);
+}
+
+/* —— 数字 —— */
+.chroma .m,
+.chroma .mb,
+.chroma .mf,
+.chroma .mh,
+.chroma .mi,
+.chroma .mo,
+.chroma .il {
+  color: var(--syntax-number);
+}
+
+/* —— 函数名 —— */
+.chroma .nf,
+.chroma .fm {
+  color: var(--syntax-function);
+}
+
+/* —— 变量名 —— */
+.chroma .nv,
+.chroma .vc,
+.chroma .vg,
+.chroma .vi {
+  color: var(--syntax-variable);
+}
+
+/* —— 类型 —— */
+.chroma .nc,
+.chroma .nn,
+.chroma .ne,
+.chroma .nt,
+.chroma .nl,
+.chroma .nb {
+  color: var(--syntax-type);
+}
+
+/* —— 标签 —— */
+.chroma .nx {
+  color: var(--syntax-tag);
+}
+
+/* —— 属性 —— */
+.chroma .na {
+  color: var(--syntax-attribute);
+}
+
+/* —— 符号 / 运算符 —— */
+.chroma .o,
+.chroma .ow {
+  color: var(--syntax-keyword);
+}
+
+.chroma .p {
+  color: var(--color-fg);
+}
+
+/* —— 内置函数 / 常量 —— */
+.chroma .nb,
+.chroma .bp {
+  color: var(--syntax-builtin);
+}
+
+/* —— 注释 —— */
+.chroma .c,
+.chroma .c1,
+.chroma .cm,
+.chroma .cp,
+.chroma .cs,
+.chroma .cd {
+  color: var(--syntax-comment);
+  font-style: italic;
+}
+
+/* —— 元信息（语言标签等） —— */
+.chroma .ge { font-style: italic; }
+.chroma .gs { font-weight: 600; }
+.chroma .gh { color: var(--color-fg); font-weight: 600; }
+.chroma .go { color: var(--syntax-comment); }
+.chroma .gp { color: var(--syntax-comment); }
+.chroma .gi { color: var(--syntax-diff-add); background: rgba(46, 160, 67, 0.1); }
+.chroma .gi .k,
+.chroma .gi .kc,
+.chroma .gi .kd { color: var(--syntax-diff-add); }
+.chroma .gd { color: var(--syntax-diff-del); background: rgba(248, 81, 73, 0.1); }
+.chroma .gd .k,
+.chroma .gd .kc,
+.chroma .gd .kd { color: var(--syntax-diff-del); }
+
+/* —— 行号（如启用） —— */
+.chroma .ln,
+.chroma .lnt {
+  color: var(--syntax-comment);
+  user-select: none;
+  margin-right: var(--space-3);
+}
+
+/* —— Hugo 输出包裹：post__content pre.chroma —— */
+.post__content pre.chroma {
+  margin: var(--space-5) 0;
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  overflow-x: auto;
+}
+
+.post__content pre.chroma code {
+  background: transparent;
+  border: none;
+  padding: 0;
+}

@@ -1,0 +1,22 @@
+{{/*
+  _default/terms.html — 分类 / 标签聚合页
+*/}}
+{{ define "main" }}
+<section class="terms-page">
+  <header class="list-page__header">
+    <h1 class="list-page__title">{{ .Title }}</h1>
+    {{- with .Content }}
+    <div class="list-intro">{{ . }}</div>
+    {{- end }}
+  </header>
+
+  <ul class="terms-list">
+    {{- range .Pages.ByTitle }}
+    <li>
+      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      <span class="count">({{ len .Pages }} 篇)</span>
+    </li>
+    {{- end }}
+  </ul>
+</section>
+{{ end }}

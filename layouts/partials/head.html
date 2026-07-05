@@ -1,0 +1,65 @@
+{{/*
+  partials/head.html — meta + 防闪烁脚本 + CSS 入口
+  防闪烁脚本必须在 CSS 之前，否则会闪一下浅色再变暗
+*/}}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="Hugo {{ hugo.Version }}">
+
+<title>{{ block "title" . }}{{ if not .IsHome }}{{ .Title }} | {{ end }}{{ .Site.Title }}{{ end }}</title>
+
+{{- with .Description }}
+<meta name="description" content="{{ . }}">
+{{- else }}
+<meta name="description" content="{{ .Site.Params.description }}">
+{{- end }}
+
+<link rel="canonical" href="{{ .Permalink }}">
+
+{{- with .OutputFormats.Get "RSS" }}
+<link rel="alternate" type="application/rss+xml" href="{{ .Permalink }}" title="{{ $.Site.Title }}">
+{{- end }}
+
+{{/*
+  Editorial 字体：Source Serif 4（英文衬线）+ Noto Serif SC（中文衬线）+ JetBrains Mono（等宽）
+  preconnect + display=swap，避免 FOIT 与慢首屏
+*/}}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&family=JetBrains+Mono:wght@400;500&display=swap">
+
+{{/*
+  暗色主题防闪烁脚本：必须在任何样式之前同步执行
+  1. 优先读 localStorage（用户手动选择优先）
+  2. 否则跟随 prefers-color-scheme
+*/}}
+<script>
+  (function() {
+    try {
+      var t = localStorage.getItem('theme');
+      if (!t) {
+        t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      if (t === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    } catch (e) {}
+  })();
+</script>
+
+{{- $css := resources.Concat "css/main.css" (slice
+  (resources.Get "css/reset.css")
+  (resources.Get "css/base.css")
+  (resources.Get "css/layout.css")
+  (resources.Get "css/components.css")
+  (resources.Get "css/syntax.css")
+) | resources.Minify | resources.Fingerprint }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+
+{{- range .AlternativeOutputFormats }}
+<link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink | safeURL }}">
+{{- end }}
+
+{{- template "_internal/opengraph.html" . }}
+{{- template "_internal/twitter_cards.html" . }}
+{{- template "_internal/schema.html" . }}

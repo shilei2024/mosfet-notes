@@ -1,0 +1,496 @@
+/* =========================================================================
+ * base.css — Editorial 衬线杂志风 · CSS 变量 + 正文排版
+ *
+ * 色板：象牙白 / 墨黑 / 酒红 / 淡褐 / 沙灰
+ * 字体：Source Serif 4（英文）+ Noto Serif SC（中文）+ JetBrains Mono（等宽）
+ * 节奏：宽松行高、大留白、克制颜色
+ * ========================================================================= */
+
+:root {
+  /* —— 颜色（浅色 · 象牙白底） —— */
+  --color-bg:           #FAF7F2;  /* 象牙白背景 */
+  --color-bg-elevated:  #F2EEE5;  /* 比 bg 略深的米色（卡片、代码块底） */
+  --color-bg-code:      #F2EEE5;
+  --color-fg:           #1A1815;  /* 墨黑 */
+  --color-fg-muted:     #6B5D4F;  /* 淡褐（meta、辅助） */
+  --color-fg-subtle:    #A89F92;  /* 更淡褐（占位、序号） */
+  --color-border:       #D8D2C7;  /* 沙灰分割线 */
+  --color-border-strong:#B8AE9C;  /* 强调边框 */
+  --color-accent:       #8B2635;  /* 酒红（链接、强调、pull quote） */
+  --color-accent-fg:    #FAF7F2;  /* 酒红上的字色 */
+  --color-link:         var(--color-accent);
+  --color-link-hover:   #6E1E2A;  /* 深一档酒红 */
+  --color-selection-bg: #E8C9C7;  /* 酒红淡化的选区底 */
+  --color-selection-fg: #1A1815;
+
+  /* —— 字体栈 —— */
+  --font-serif: "Source Serif 4", "Source Serif Pro", "Noto Serif SC",
+    "Source Han Serif SC", "Songti SC", "STSong", SimSun, serif;
+  --font-mono:  "JetBrains Mono", "Fira Code", SFMono-Regular, Menlo,
+    Consolas, "Courier New", monospace;
+
+  /* —— 排版尺度 —— */
+  --font-size-base:   17px;     /* 比 16 略大，杂志感 */
+  --font-size-sm:     14px;
+  --font-size-lg:     19px;     /* 正文 */
+  --font-size-h1:     2.75rem;  /* ~44px */
+  --font-size-h2:     2rem;     /* ~32px */
+  --font-size-h3:     1.35rem;
+  --font-size-h4:     1.15rem;
+  --line-height-base: 1.8;      /* 杂志宽松 */
+  --line-height-tight:1.25;
+  --measure-width:    720px;    /* 65-72 字符 measure */
+  --content-width:    720px;
+  --header-height:    64px;
+
+  /* —— 间距 —— */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  /* —— 圆角与阴影（杂志几乎不用阴影，靠 line 与留白） —— */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --shadow-sm: 0 1px 2px rgba(26, 24, 21, .04);
+  --shadow-md: 0 4px 12px rgba(26, 24, 21, .06);
+  --shadow-lg: 0 12px 32px rgba(26, 24, 21, .08);
+
+  /* —— 语法高亮（酒红 + 墨绿 + 赭石） —— */
+  --syntax-bg:        #F2EEE5;
+  --syntax-comment:   #A89F92;
+  --syntax-keyword:   #8B2635;  /* 酒红 = 关键字 */
+  --syntax-string:    #4A6B3A;  /* 墨绿 = 字符串 */
+  --syntax-number:    #8B5A2B;  /* 赭石 = 数字 */
+  --syntax-function:  #6E1E2A;  /* 深酒红 = 函数 */
+  --syntax-variable:  #5B4A3C;
+  --syntax-type:      #6E1E2A;
+  --syntax-tag:       #4A6B3A;
+  --syntax-attribute: #5B4A3C;
+  --syntax-symbol:    #8B5A2B;
+  --syntax-builtin:   #6E1E2A;
+  --syntax-meta:      #A89F92;
+  --syntax-diff-add:  #4A6B3A;
+  --syntax-diff-del:  #8B2635;
+}
+
+[data-theme="dark"] {
+  --color-bg:           #1A1815;  /* 墨黑（带温度，非工程纯黑） */
+  --color-bg-elevated:  #22201D;
+  --color-bg-code:      #22201D;
+  --color-fg:           #E8E1D2;  /* 暗象牙 */
+  --color-fg-muted:     #A89F92;
+  --color-fg-subtle:    #6E6358;
+  --color-border:       #2C2823;
+  --color-border-strong:#48423C;
+  --color-accent:       #C76B5E;  /* 提亮酒红 */
+  --color-accent-fg:    #1A1815;
+  --color-link-hover:   #D8897C;
+  --color-selection-bg: #4A2A2C;
+  --color-selection-fg: #E8E1D2;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, .3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, .4);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, .5);
+
+  --syntax-bg:        #22201D;
+  --syntax-comment:   #7A6F60;
+  --syntax-keyword:   #E89A8F;
+  --syntax-string:    #B5C9A0;
+  --syntax-number:    #D9A06B;
+  --syntax-function:  #E89A8F;
+  --syntax-variable:  #C9B89E;
+  --syntax-type:      #E89A8F;
+  --syntax-tag:       #B5C9A0;
+  --syntax-attribute: #C9B89E;
+  --syntax-symbol:    #D9A06B;
+  --syntax-builtin:   #E89A8F;
+  --syntax-meta:      #7A6F60;
+  --syntax-diff-add:  #B5C9A0;
+  --syntax-diff-del:  #E89A8F;
+}
+
+/* 系统暗色偏好：仅在用户未手动选择时生效 */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --color-bg:           #1A1815;
+    --color-bg-elevated:  #22201D;
+    --color-bg-code:      #22201D;
+    --color-fg:           #E8E1D2;
+    --color-fg-muted:     #A89F92;
+    --color-fg-subtle:    #6E6358;
+    --color-border:       #2C2823;
+    --color-border-strong:#48423C;
+    --color-accent:       #C76B5E;
+    --color-accent-fg:    #1A1815;
+    --color-link-hover:   #D8897C;
+    --color-selection-bg: #4A2A2C;
+    --color-selection-fg: #E8E1D2;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, .3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, .4);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, .5);
+    --syntax-bg:        #22201D;
+    --syntax-comment:   #7A6F60;
+    --syntax-keyword:   #E89A8F;
+    --syntax-string:    #B5C9A0;
+    --syntax-number:    #D9A06B;
+    --syntax-function:  #E89A8F;
+    --syntax-variable:  #C9B89E;
+    --syntax-type:      #E89A8F;
+    --syntax-tag:       #B5C9A0;
+    --syntax-attribute: #C9B89E;
+    --syntax-symbol:    #D9A06B;
+    --syntax-builtin:   #E89A8F;
+    --syntax-meta:      #7A6F60;
+    --syntax-diff-add:  #B5C9A0;
+    --syntax-diff-del:  #E89A8F;
+  }
+}
+
+/* —— 正文基线 —— */
+body {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--color-fg);
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-feature-settings: "kern" 1, "liga" 1;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-selection-bg);
+  color: var(--color-selection-fg);
+}
+
+/* —— 链接（批注感：颜色变 + 下划线） —— */
+a {
+  color: var(--color-link);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+a:hover {
+  color: var(--color-link-hover);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+/* —— 标题 —— */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  line-height: var(--line-height-tight);
+  color: var(--color-fg);
+  letter-spacing: -0.01em;
+}
+
+h1 { font-size: var(--font-size-h1); font-weight: 700; letter-spacing: -0.02em; }
+h2 { font-size: var(--font-size-h2); }
+h3 { font-size: var(--font-size-h3); }
+h4 { font-size: var(--font-size-h4); }
+
+/* —— 文章正文（在 .post__content 内） —— */
+.post__content {
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-base);
+  color: var(--color-fg);
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+.post__content > * + * {
+  margin-top: var(--space-5);
+}
+
+.post__content h2 {
+  margin-top: var(--space-7);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+  font-weight: 600;
+}
+
+.post__content h3 {
+  margin-top: var(--space-6);
+  font-weight: 600;
+}
+
+.post__content h3::before,
+.post__content h4::before {
+  content: "§ ";
+  color: var(--color-fg-subtle);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.post__content p {
+  word-wrap: break-word;
+  hanging-punctuation: first;
+}
+
+.post__content strong {
+  font-weight: 600;
+  color: var(--color-fg);
+}
+
+.post__content em {
+  font-style: italic;
+}
+
+.post__content blockquote {
+  margin: var(--space-6) 0;
+  padding: var(--space-3) var(--space-5);
+  border-left: 2px solid var(--color-accent);
+  color: var(--color-fg-muted);
+  font-style: italic;
+  font-size: 1.05em;
+}
+
+.post__content blockquote p {
+  margin: 0;
+}
+
+.post__content ul,
+.post__content ol {
+  padding-left: var(--space-6);
+}
+
+.post__content li + li {
+  margin-top: var(--space-2);
+}
+
+.post__content li::marker {
+  color: var(--color-fg-subtle);
+}
+
+.post__content hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: var(--space-7) 0;
+  width: 30%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.post__content table {
+  font-size: var(--font-size-sm);
+  border-top: 1px solid var(--color-border-strong);
+  border-bottom: 1px solid var(--color-border-strong);
+}
+
+.post__content th,
+.post__content td {
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.post__content th {
+  font-weight: 600;
+  font-family: var(--font-serif);
+  border-bottom: 1px solid var(--color-border-strong);
+  background: transparent;
+}
+
+.post__content tr:last-child td {
+  border-bottom: none;
+}
+
+/* —— 行内代码 —— */
+.post__content :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  padding: 0.1em 0.4em;
+  background: var(--color-bg-code);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--syntax-keyword);
+}
+
+/* —— 代码块 —— */
+.post__content pre {
+  margin: var(--space-5) 0;
+  padding: var(--space-5);
+  background: var(--syntax-bg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  line-height: 1.65;
+}
+
+.post__content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--color-fg);
+  font-size: inherit;
+}
+
+/* —— 图片 —— */
+.post__content img {
+  border-radius: var(--radius-sm);
+  margin: var(--space-6) auto;
+}
+
+/* —— 容器 —— */
+.container {
+  width: 100%;
+  max-width: calc(var(--content-width) + var(--space-7) * 2);
+  margin: 0 auto;
+  padding: 0 var(--space-5);
+}
+
+/* =========================================================================
+ * Editorial 特殊元素
+ * ========================================================================= */
+
+/* —— Lead 引言段 —— */
+.lead {
+  font-size: 1.15em;
+  line-height: 1.65;
+  font-style: italic;
+  color: var(--color-fg-muted);
+  letter-spacing: 0.005em;
+  margin-bottom: var(--space-6);
+}
+
+/* —— Small Caps —— */
+.small-caps {
+  font-variant: small-caps;
+  letter-spacing: 0.08em;
+  font-feature-settings: "smcp" 1;
+}
+
+/* —— Pull Quote —— */
+.pull-quote {
+  margin: var(--space-7) auto;
+  padding: var(--space-5) var(--space-4);
+  border-top: 1px solid var(--color-accent);
+  border-bottom: 1px solid var(--color-accent);
+  max-width: 90%;
+  text-align: center;
+}
+
+.pull-quote--left {
+  float: left;
+  margin: var(--space-3) var(--space-5) var(--space-3) 0;
+  max-width: 50%;
+  border: none;
+  border-left: 2px solid var(--color-accent);
+  padding: var(--space-2) 0 var(--space-2) var(--space-4);
+  text-align: left;
+}
+
+.pull-quote--right {
+  float: right;
+  margin: var(--space-3) 0 var(--space-3) var(--space-5);
+  max-width: 50%;
+  border: none;
+  border-right: 2px solid var(--color-accent);
+  padding: var(--space-2) var(--space-4) var(--space-2) 0;
+  text-align: right;
+}
+
+.pull-quote__body {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--color-accent);
+  letter-spacing: -0.005em;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.pull-quote--left .pull-quote__body,
+.pull-quote--right .pull-quote__body {
+  font-size: 1.25rem;
+}
+
+.pull-quote__body::before {
+  content: "\201C";
+  margin-right: 0.1em;
+  font-weight: 700;
+}
+
+.pull-quote__body::after {
+  content: "\201D";
+  margin-left: 0.1em;
+  font-weight: 700;
+}
+
+/* 清除浮动，避免影响后续段落 */
+.post__content::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* —— Drop Cap：文章首段第一个字母 —— */
+.post__content > p:first-of-type::first-letter {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 4.2em;
+  float: left;
+  line-height: 0.85;
+  margin: 0.05em 0.08em 0 -0.04em;
+  color: var(--color-fg);
+}
+
+/* 如果首段是 .lead 段，首字用酒红（强调） */
+.post__content > .lead::first-letter {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 4.8em;
+  float: left;
+  line-height: 0.85;
+  margin: 0.05em 0.08em 0 -0.04em;
+  color: var(--color-accent);
+}
+
+/* 移动端：缩小但不取消 */
+@media (max-width: 640px) {
+  :root {
+    --font-size-base: 16px;
+    --content-width: 100%;
+    --measure-width: 100%;
+  }
+
+  .post__content > p:first-of-type::first-letter,
+  .post__content > .lead::first-letter {
+    font-size: 3.2em;
+    margin-right: 0.06em;
+  }
+
+  .pull-quote--left,
+  .pull-quote--right {
+    float: none;
+    max-width: 100%;
+    margin: var(--space-5) auto;
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid var(--color-accent);
+    border-bottom: 1px solid var(--color-accent);
+    text-align: center;
+  }
+
+  .pull-quote--left .pull-quote__body,
+  .pull-quote--right .pull-quote__body {
+    text-align: center;
+    font-size: 1.25rem;
+  }
+}

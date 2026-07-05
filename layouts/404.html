@@ -1,0 +1,10 @@
+{{/*
+  404.html — 找不到页面
+*/}}
+{{ define "main" }}
+<section class="not-found">
+  <div class="not-found__code">404</div>
+  <p class="not-found__text">这页飞走了。要不试试搜索？</p>
+  <a class="not-found__home" href="{{ .Site.BaseURL }}">回到首页</a>
+</section>
+{{ end }}

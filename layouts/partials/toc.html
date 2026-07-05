@@ -1,0 +1,12 @@
+{{/*
+  partials/toc.html — 文章目录（折叠）
+  仅在 .Site.Params.showTOC 启用且文章非首页时显示
+*/}}
+{{- if and .Site.Params.showTOC .TableOfContents }}
+<aside class="toc">
+  <details open>
+    <summary>目录</summary>
+    {{ .TableOfContents }}
+  </details>
+</aside>
+{{- end }}

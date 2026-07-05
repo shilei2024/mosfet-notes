@@ -1,0 +1,16 @@
+{{/*
+  partials/post-meta.html — 文章 meta（小写月份 + small caps 杂志感）
+*/}}
+<div class="post-meta post-meta--smallcaps">
+  <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+  {{- with .Params.categories }}
+  <span class="post-meta__sep">·</span>
+  <span class="post-meta__categories">
+    {{- range . }}<a href="/categories/{{ . | urlize }}/">{{ . }}</a> {{ end -}}
+  </span>
+  {{- end }}
+  {{- if .Site.Params.showReadingTime }}
+  <span class="post-meta__sep">·</span>
+  <span>{{ .ReadingTime }} min read</span>
+  {{- end }}
+</div>

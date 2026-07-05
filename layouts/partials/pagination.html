@@ -1,0 +1,15 @@
+{{/*
+  partials/pagination.html — 分页
+*/}}
+{{- $paginator := .Paginator }}
+{{- if gt $paginator.TotalPages 1 }}
+<nav class="pagination" aria-label="分页">
+  {{- if $paginator.HasPrev }}
+  <a class="prev" href="{{ $paginator.Prev.URL }}">← 上一页</a>
+  {{- end }}
+  <span class="page-info">{{ $paginator.PageNumber }} / {{ $paginator.TotalPages }}</span>
+  {{- if $paginator.HasNext }}
+  <a class="next" href="{{ $paginator.Next.URL }}">下一页 →</a>
+  {{- end }}
+</nav>
+{{- end }}
