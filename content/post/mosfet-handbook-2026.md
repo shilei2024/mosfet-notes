@@ -39,6 +39,8 @@ lead: "做电源设计这些年，最让我头疼的不是拓扑，而是 MOSFET
 - 同步整流的低边/高边位置均用 N 沟道，靠自举电路抬高栅压；
 - 板卡空间紧张时考虑 DFN 5x6 / PowerPAK，散热依赖 PCB 铜皮。
 
+![MOSFET 横截面结构（N 沟道增强型）](/img/fig-cross-section.png)
+
 ---
 
 ## 2. 数据手册关键参数
@@ -83,18 +85,7 @@ lead: "做电源设计这些年，最让我头疼的不是拓扑，而是 MOSFET
 
 SOA 图上画了四个区域：
 
-```
-    log I_D
-      │
-  ┌───┴───┐  热限制（直流/单脉冲）
-  │       │
-  │ Rds 限│  Rds(on) 限制
-  │       │
-  │  Vds  │
-  │  限制 │  二极管雪崩能量
-  │       │
-  └───────┘______ log V_DS
-```
+![MOSFET SOA 安全工作区示意](/img/fig-soa.png)
 
 实战口诀：**双脉冲测试 + 热电偶实测 > 仿真 > 数据手册**。
 
@@ -113,6 +104,8 @@ $$P_{\mathrm{cond}} = I_{\mathrm{rms}}^{2} \cdot R_{\mathrm{DS(on)}}(T_{\mathrm{
 注意 Rds(on) 随结温近似线性上升（硅 MOSFET 通常 +0.4 %/°C）。如果热计算还没收敛，先用 100 ℃ 的 Rds(on) 估算。
 
 ### 3.2 开关损耗
+
+![硬开关开通重叠区示意](/img/fig-switching-loss.png)
 
 对硬开关近似（忽略 Coss 充放电）：
 
@@ -139,6 +132,8 @@ $$P_{\mathrm{dead}} = V_{\mathrm{SD}} \cdot I_{\mathrm{D}} \cdot t_{\mathrm{dead
 ## 4. 栅极驱动设计
 
 栅极驱动做不好，再好的 MOSFET 也是悲剧。三个核心点：
+
+![MOSFET 开关波形时序（Vgs / Vds / Id）](/img/fig-gate-waveform.png)
 
 ### 4.1 驱动电压
 
@@ -167,20 +162,7 @@ R_g ≈ 1 Ω  ~  5 Ω  （SiC、GaN）
 
 ### 4.3 自举电路（高边 N-MOS）
 
-```
-        Vdrv
-         │
-       ┌─┴─┐
-       │ D │  自举二极管（快恢复）
-       └─┬─┘
-         ├────── Vbs（栅极驱动电源）
-         │
-       ┌─┴─┐
-       │Cs │  自举电容（≥ 10× Qg，常取 100 nF~1 µF X7R）
-       └─┬─┘
-         │
-         ●──── 高边 MOSFET 源极（VS 节点，会跳动）
-```
+![高边 N-MOS 自举电路原理图](/img/fig-bootstrap.png)
 
 要点：
 - 自举二极管要 **快恢复（trr < 50 ns）或 SiC SBD**，普通 1N4148 在高压下反向恢复会让你怀疑人生；
@@ -225,13 +207,7 @@ DPT 是 MOSFET/IGBT 应用的"金标准"。它一次性告诉你：
 
 电路示意：
 
-```
-   V+ ──[L]──┬────── D ── Q1 (DUT 上管)
-              │
-              └────── S ── Q2 (DUT 下管)
-                              │
-                             GND
-```
+![双脉冲测试（DPT）电路与时序](/img/fig-dpt.png)
 
 第一脉冲把电感电流充到目标值，第二脉冲时关闭上管，观察 Vds/Id 波形。
 

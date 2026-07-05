@@ -2,3 +2,8 @@ public/
 resources/
 .hugo_build.lock
 .DS_Store
+# 本地工具脚本（不入仓，避免泄露到 public/）
+scripts/
+# Python 缓存
+__pycache__/
+*.pyc
