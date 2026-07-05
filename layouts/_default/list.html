@@ -2,7 +2,6 @@
   _default/list.html — Editorial section 列表页
 */}}
 {{ define "main" }}
-{{- $.Scratch.Set "postIndex" 0 -}}
 <section class="list-page">
   <header class="list-page__header">
     <h1 class="list-page__title">{{ .Title }}</h1>
@@ -13,8 +12,8 @@
 
   <h2 class="section-title"><span class="small-caps">Articles</span></h2>
   <div class="post-list">
-    {{- range (.Pages.ByDate.Reverse) }}
-    {{- partial "post-card.html" . }}
+    {{- range $idx, $p := .Pages.ByDate.Reverse }}
+    {{- partial "post-card.html" (dict "page" $p "index" (add $idx 1)) }}
     {{- end }}
   </div>
 

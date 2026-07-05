@@ -2,7 +2,6 @@
   index.html — Editorial 首页
 */}}
 {{ define "main" }}
-{{- $.Scratch.Set "postIndex" 0 -}}
 <section class="home">
   <header class="home__hero">
     <p class="home__kicker">— Notes &amp; Field Reports —</p>
@@ -13,8 +12,8 @@
   <h2 class="section-title"><span class="small-caps">Latest</span></h2>
   <div class="post-list">
     {{- $pages := where .Site.RegularPages "Section" "in" .Site.Params.mainSections }}
-    {{- range first 10 ($pages.ByDate.Reverse) }}
-    {{- partial "post-card.html" . }}
+    {{- range $idx, $p := first 10 ($pages.ByDate.Reverse) }}
+    {{- partial "post-card.html" (dict "page" $p "index" (add $idx 1)) }}
     {{- end }}
   </div>
 </section>
