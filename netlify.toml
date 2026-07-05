@@ -1,0 +1,49 @@
+# Netlify 部署配置
+# 文档：https://docs.netlify.com/configure-builds/file-based-configuration/
+
+[build]
+  # 构建命令：清理 + minify
+  command = "hugo --gc --minify"
+
+  # 输出目录
+  publish = "public"
+
+[build.environment]
+  # Netlify 检测到此变量会自动安装对应版本的 Hugo binary
+  # 留空则用 Netlify 默认版本（可能过旧）
+  HUGO_VERSION = "0.163.3"
+
+  # 让 Hugo 读取 git 信息（lastmod 等）
+  HUGO_ENABLEGITINFO = "true"
+
+  # 加快 go module 拉取
+  GOFLAGS = "-mod=readonly"
+
+  # Node 版本（Twikoo 集成时用，Twikoo 不需 Node 也可工作）
+  NODE_VERSION = "20"
+
+# —— 安全 headers ——
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+# —— 静态资源缓存（带 hash 的 CSS/JS 可永久缓存） ——
+[[headers]]
+  for = "/css/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/js/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# —— Hugo favicon ——
+[[headers]]
+  for = "/favicon.ico"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
