@@ -683,3 +683,300 @@
     font-size: 10px;
   }
 }
+
+/* =========================================================================
+ * 分享按钮（文章末"复制链接"）
+ * ========================================================================= */
+
+.share {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border);
+}
+
+.share__label {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-sm);
+  color: var(--color-fg-muted);
+}
+
+.share__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-serif);
+  font-size: var(--font-size-sm);
+  font-variant: small-caps;
+  letter-spacing: 0.06em;
+  color: var(--color-link);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.share__btn:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.share__icon {
+  width: 14px;
+  height: 14px;
+}
+
+.share__btn.is-copied,
+.share__btn.is-copied:hover {
+  color: #15803d;
+  border-color: #15803d;
+  background: #f0fdf4;
+}
+
+[data-theme="dark"] .share__btn.is-copied,
+[data-theme="dark"] .share__btn.is-copied:hover {
+  color: #4ade80;
+  border-color: #4ade80;
+  background: rgba(74, 222, 128, 0.1);
+}
+
+/* =========================================================================
+ * 相关文章推荐
+ * ========================================================================= */
+
+.related-posts {
+  margin-top: var(--space-7);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+}
+
+.related-posts__title {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 var(--space-4);
+  letter-spacing: -0.01em;
+}
+
+.related-posts__title .small-caps { color: var(--color-fg); }
+
+.related-posts__title-zh {
+  font-size: 1rem;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--color-fg-muted);
+}
+
+.related-posts__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.related-posts__item {
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.related-posts__item:last-child {
+  border-bottom: none;
+}
+
+.related-posts__link {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--color-fg);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.related-posts__link:hover {
+  color: var(--color-accent);
+}
+
+.related-posts__index {
+  color: var(--color-fg-subtle);
+  font-style: italic;
+}
+
+.related-posts__excerpt {
+  margin: var(--space-1) 0 0 calc(var(--space-3) + 1.4em);
+  font-size: var(--font-size-sm);
+  color: var(--color-fg-muted);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+@media (max-width: 640px) {
+  .related-posts__excerpt {
+    margin-left: var(--space-3);
+  }
+}
+
+/* =========================================================================
+ * 归档页 /archives/
+ * ========================================================================= */
+
+.archives-page {
+  max-width: var(--content-width);
+  margin: 0 auto;
+}
+
+.archives {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-7);
+}
+
+.archives__year-title {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 var(--space-4);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-fg);
+}
+
+.archives__year-count {
+  font-size: 0.8em;
+  font-variant: normal;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--color-fg-subtle);
+}
+
+.archives__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.archives__item {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr auto;
+  align-items: baseline;
+  gap: var(--space-4);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.archives__date {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-sm);
+  font-variant: small-caps;
+  letter-spacing: 0.06em;
+  color: var(--color-fg-muted);
+}
+
+.archives__link {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--color-fg);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.archives__link:hover {
+  color: var(--color-accent);
+}
+
+.archives__cats {
+  display: flex;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-fg-muted);
+}
+
+.archives__cat {
+  font-style: italic;
+}
+
+.archives__cat::before {
+  content: "· ";
+}
+
+@media (max-width: 640px) {
+  .archives__item {
+    grid-template-columns: 4.5rem 1fr;
+    gap: var(--space-2);
+  }
+  .archives__cats {
+    grid-column: 2;
+    margin-top: var(--space-1);
+  }
+}
+
+/* =========================================================================
+ * 404 升级（最新文章 + 双链接）
+ * ========================================================================= */
+
+.not-found__suggest {
+  margin: var(--space-6) auto;
+  max-width: 28em;
+  text-align: left;
+}
+
+.not-found__suggest-label {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-sm);
+  font-variant: small-caps;
+  letter-spacing: 0.08em;
+  color: var(--color-fg-muted);
+  margin-bottom: var(--space-3);
+  text-align: center;
+}
+
+.not-found__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.not-found__list li {
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-bg-elevated);
+  border-radius: var(--radius-sm);
+}
+
+.not-found__list a {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-sm);
+  color: var(--color-fg);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.not-found__list a:hover {
+  color: var(--color-accent);
+}
+
+.not-found__actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+.not-found__sep {
+  color: var(--color-fg-subtle);
+}

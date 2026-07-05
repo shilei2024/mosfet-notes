@@ -61,6 +61,10 @@ ignoreLogs = ['warning-goldmark-raw-html']
     url = "/post/"
     weight = 2
   [[menu.main]]
+    name = "归档"
+    url = "/archives/"
+    weight = 3
+  [[menu.main]]
     name = "关于"
     url = "/about/"
-    weight = 3
+    weight = 4

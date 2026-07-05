@@ -1,10 +1,29 @@
 {{/*
   404.html — 找不到页面
+  - 显示最新 3 篇文章
+  - 提供返回首页和归档的链接
 */}}
 {{ define "main" }}
 <section class="not-found">
   <div class="not-found__code">404</div>
-  <p class="not-found__text">这页飞走了。要不试试搜索？</p>
-  <a class="not-found__home" href="{{ .Site.BaseURL }}">回到首页</a>
+  <p class="not-found__text">这页飞走了——可能是链接写错，或者文章已被移除。</p>
+
+  {{- $pages := where .Site.RegularPages "Section" "in" .Site.Params.mainSections -}}
+  {{- if $pages }}
+  <div class="not-found__suggest">
+    <p class="not-found__suggest-label">试试最近的：</p>
+    <ul class="not-found__list">
+      {{- range first 3 ($pages.ByDate.Reverse) }}
+      <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+      {{- end }}
+    </ul>
+  </div>
+  {{- end }}
+
+  <div class="not-found__actions">
+    <a class="not-found__home" href="{{ .Site.BaseURL }}">回到首页</a>
+    <span class="not-found__sep">·</span>
+    <a class="not-found__home" href="/archives/">查看归档</a>
+  </div>
 </section>
 {{ end }}

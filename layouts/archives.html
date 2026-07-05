@@ -1,0 +1,38 @@
+{{/*
+  archives.html — 归档页：按年份分组、按月份展开
+*/}}
+{{ define "main" }}
+<section class="archives-page">
+  <header class="list-page__header">
+    <h1 class="list-page__title">{{ .Title }}</h1>
+    <div class="list-intro">按年份倒序，按月份展开。</div>
+  </header>
+
+  {{- $pages := where .Site.RegularPages "Section" "in" .Site.Params.mainSections -}}
+  {{- $byYear := $pages.GroupByDate "2006" -}}
+
+  <div class="archives">
+    {{- range $byYear }}
+    <section class="archives__year">
+      <h2 class="archives__year-title">
+        <span class="small-caps">{{ .Key }}</span>
+        <span class="archives__year-count">{{ len .Pages }} 篇</span>
+      </h2>
+      <ul class="archives__list">
+        {{- range .Pages }}
+        <li class="archives__item">
+          <time class="archives__date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
+          <a class="archives__link" href="{{ .RelPermalink }}">{{ .Title }}</a>
+          {{- with .Params.categories }}
+          <span class="archives__cats">
+            {{- range . }}<span class="archives__cat">{{ . }}</span>{{ end -}}
+          </span>
+          {{- end }}
+        </li>
+        {{- end }}
+      </ul>
+    </section>
+    {{- end }}
+  </div>
+</section>
+{{ end }}

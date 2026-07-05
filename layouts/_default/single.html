@@ -47,6 +47,16 @@
 {{- end }}
 
 {{/*
+  复制链接分享
+*/}}
+{{- partial "share.html" . }}
+
+{{/*
+  相关文章
+*/}}
+{{- partial "related-posts.html" . }}
+
+{{/*
   Giscus 评论
 */}}
 {{- partial "comments.html" . }}

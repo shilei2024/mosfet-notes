@@ -1,0 +1,58 @@
+{{/*
+  partials/share.html — 文章末"复制链接"分享按钮
+  - 点击 → navigator.clipboard.writeText(location.href)
+  - 失败降级到 textarea + execCommand
+  - 短暂显示"已复制"反馈
+*/}}
+<div class="share">
+  <span class="share__label small-caps">Share</span>
+  <button class="share__btn" type="button" data-share-url="{{ .Permalink }}" aria-label="复制文章链接">
+    <svg class="share__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="9" y="9" width="13" height="13" rx="2"/>
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+    </svg>
+    <span class="share__text">复制链接</span>
+  </button>
+</div>
+
+<script>
+  (function () {
+    var btn = document.querySelector('.share__btn');
+    if (!btn) return;
+    var url = btn.getAttribute('data-share-url') || window.location.href;
+    var textEl = btn.querySelector('.share__text');
+
+    function fallback(text) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      return ok;
+    }
+
+    btn.addEventListener('click', function () {
+      function done() {
+        var orig = textEl.textContent;
+        textEl.textContent = '已复制';
+        btn.classList.add('is-copied');
+        setTimeout(function () {
+          textEl.textContent = orig;
+          btn.classList.remove('is-copied');
+        }, 1500);
+      }
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(url).then(done, function () {
+          if (fallback(url)) done();
+        });
+      } else if (fallback(url)) {
+        done();
+      }
+    });
+  })();
+</script>

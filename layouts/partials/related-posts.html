@@ -1,0 +1,28 @@
+{{/*
+  partials/related-posts.html — 文章页"相关文章"推荐
+  - 基于 tags/categories 重叠度自动算
+  - Hugo 内置 .Related，最少需要 1 个共有 tag 才推荐
+  - 当前只有 1 篇文章，related 为空时整段不渲染
+*/}}
+{{- $related := first 3 (.Site.RegularPages.Related .) -}}
+{{- if $related -}}
+<aside class="related-posts" aria-label="相关文章">
+  <h2 class="related-posts__title">
+    <span class="small-caps">Related</span>
+    <span class="related-posts__title-zh">相关文章</span>
+  </h2>
+  <ul class="related-posts__list">
+    {{- range $related }}
+    <li class="related-posts__item">
+      <a class="related-posts__link" href="{{ .RelPermalink }}">
+        <span class="related-posts__index">→</span>
+        <span class="related-posts__name">{{ .Title }}</span>
+      </a>
+      {{- with .Description }}
+      <p class="related-posts__excerpt">{{ . }}</p>
+      {{- end }}
+    </li>
+    {{- end }}
+  </ul>
+</aside>
+{{- end -}}
