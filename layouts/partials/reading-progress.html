@@ -1,0 +1,32 @@
+{{/*
+  partials/reading-progress.html — 文章页顶部阅读进度条
+  - 仅在文章详情页（IsPage）显示
+  - 顶部 3px 酒红横条，随滚动填充
+  - rAF 节流，性能好
+*/}}
+{{- if .IsPage -}}
+<div class="reading-progress" aria-hidden="true"></div>
+<script>
+  (function () {
+    var bar = document.querySelector('.reading-progress');
+    if (!bar) return;
+    var ticking = false;
+    function update() {
+      var h = document.documentElement;
+      var scrollTop = h.scrollTop || document.body.scrollTop || 0;
+      var max = (h.scrollHeight - h.clientHeight) || 1;
+      var pct = Math.min(100, Math.max(0, (scrollTop / max) * 100));
+      bar.style.width = pct + '%';
+      ticking = false;
+    }
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
+    }, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  })();
+</script>
+{{- end -}}

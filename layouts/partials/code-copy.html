@@ -1,0 +1,62 @@
+{{/*
+  partials/code-copy.html — 文章页代码块右上角"复制"按钮
+  - 用 JS 给所有 .post__content pre 注入按钮
+  - 点击 → 复制 → 短暂显示"已复制"反馈
+  - clipboard API 失败时降级到 textarea + execCommand
+*/}}
+{{- if .IsPage -}}
+<script>
+  (function () {
+    var blocks = document.querySelectorAll('.post__content pre');
+    if (!blocks.length) return;
+
+    function fallbackCopy(text) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      return ok;
+    }
+
+    blocks.forEach(function (pre) {
+      if (pre.querySelector('.code-copy')) return;
+      pre.style.position = 'relative';
+
+      var btn = document.createElement('button');
+      btn.className = 'code-copy';
+      btn.type = 'button';
+      btn.textContent = 'Copy';
+      btn.setAttribute('aria-label', '复制代码');
+
+      btn.addEventListener('click', function () {
+        var code = pre.querySelector('code');
+        var text = code ? code.textContent : pre.textContent;
+        var done = function () {
+          var orig = btn.textContent;
+          btn.textContent = 'Copied';
+          btn.classList.add('is-copied');
+          setTimeout(function () {
+            btn.textContent = orig;
+            btn.classList.remove('is-copied');
+          }, 1500);
+        };
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(text).then(done, function () {
+            if (fallbackCopy(text)) done();
+          });
+        } else if (fallbackCopy(text)) {
+          done();
+        }
+      });
+
+      pre.appendChild(btn);
+    });
+  })();
+</script>
+{{- end -}}

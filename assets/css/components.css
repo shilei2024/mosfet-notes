@@ -606,3 +606,80 @@
   background: var(--color-bg-elevated);
   border-color: var(--color-border);
 }
+
+/* =========================================================================
+ * 阅读进度条（顶部 3px 酒红横条）
+ * ========================================================================= */
+
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0;
+  background: var(--color-accent);
+  z-index: 200;
+  pointer-events: none;
+  transition: width 0.05s linear, background 0.15s ease;
+}
+
+/* =========================================================================
+ * 代码块"复制"按钮（pre 右上角）
+ * ========================================================================= */
+
+.post__content pre {
+  position: relative;
+}
+
+.code-copy {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--color-fg-muted);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.post__content pre:hover .code-copy,
+.code-copy:focus {
+  opacity: 1;
+}
+
+.code-copy:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.code-copy.is-copied,
+.code-copy.is-copied:hover {
+  color: #15803d;
+  border-color: #15803d;
+  background: #f0fdf4;
+  opacity: 1;
+}
+
+[data-theme="dark"] .code-copy.is-copied,
+[data-theme="dark"] .code-copy.is-copied:hover {
+  color: #4ade80;
+  border-color: #4ade80;
+  background: rgba(74, 222, 128, 0.1);
+}
+
+@media (max-width: 640px) {
+  .code-copy {
+    opacity: 0.85;
+    top: 4px;
+    right: 4px;
+    padding: 3px 8px;
+    font-size: 10px;
+  }
+}

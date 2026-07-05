@@ -12,6 +12,7 @@
   {{- partial "analytics.html" . }}
 </head>
 <body>
+  {{- partial "reading-progress.html" . }}
   {{- partial "header.html" . }}
   <main class="site-main" role="main">
     {{- block "main" . }}{{ end }}
@@ -21,5 +22,7 @@
   {{- if .Params.math }}
   {{- partial "math.html" . }}
   {{- end }}
+
+  {{- partial "code-copy.html" . }}
 </body>
 </html>
