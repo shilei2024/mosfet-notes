@@ -1,4 +1,4 @@
-baseURL = "https://brilliant-puffpuff-626a99.netlify.app/"
+baseURL = "https://mosfet-notes.netlify.app/"
 title = "MOSFET实战笔记"
 locale = "zh-cn"
 hasCJKLanguage = true
